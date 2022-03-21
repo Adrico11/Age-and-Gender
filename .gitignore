@@ -6,6 +6,11 @@
 **/.idea
 **/.pyc
 **/.DS_Store
+
+# Models
+**/.h5
+
+# Data files
 data/**
 
 # Test files
