@@ -2,17 +2,17 @@
 **/__pycache__
 **/.pytest_cache
 **/.vscode
-**/.ipynb_checkpoints
 **/.idea
 **/.pyc
 **/.DS_Store
 
 # Models
-**/.h5
+*.h5
 
 # Data files
 data/**
 
-# Test files
+# Jupyter notebooks
 *.ipynb
-First_approach.ipynb
+**/.ipynb_checkpoints
+
