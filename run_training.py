@@ -44,5 +44,5 @@ if __name__ == '__main__':
 
     data_folder_name = args["dataset"]
     model_file_name = args["model"]
-    nb_epochs = args["epochs"]
+    nb_epochs = int(args["epochs"])
     main(data_folder_name, model_file_name, nb_epochs)
