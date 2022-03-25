@@ -5,17 +5,17 @@ from keras.callbacks import ModelCheckpoint, EarlyStopping
 class ModelTrainer:
 
     def __init__(
-        self, model, data_generator, train_idx, valid_idx, init_lr=1e-4,
-            nb_epochs=25, batch_size=32,
-            model_file='age_gender_model.h5') -> None:
+        self, model, data_generator, train_idx,
+            valid_idx, model_file, nb_epochs,
+            init_lr=1e-4, batch_size=32) -> None:
         self.model = model
         self.data_generator = data_generator
         self.train_idx = train_idx
         self.valid_idx = valid_idx
+        self.model_file = model_file
         self.init_lr = init_lr
         self.nb_epochs = nb_epochs
         self.batch_size = self.valid_batch_size = batch_size
-        self.model_file = model_file
 
     def create_optimizer(self) -> None:
         opti = Adam(
@@ -57,7 +57,6 @@ class ModelTrainer:
             epochs=self.nb_epochs, callbacks=callback_list,
             validation_data=valid_gen, verbose=2,
             validation_steps=len(self.valid_idx)//self.valid_batch_size)
-
         self.history = history
 
 

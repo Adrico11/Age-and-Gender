@@ -1,21 +1,21 @@
 import matplotlib.pyplot as plt
 
-from model_builder import ModelBuilder
-from model_trainer import ModelTrainer
+from src.models.model_builder import ModelBuilder
+from src.models.model_trainer import ModelTrainer
 
-# importing sys
-import sys
-# adding Folder_2 to the system path
-sys.path.insert(0, 'C:/Users/adrie/OneDrive/Bureau/Stage/Datakalab/age-gender-estimation-salem-sermanet/src/data_process')
+from src.data_process.data_generator import DataGenerator
+from src.data_process.data_extractor import DataExtractor
 
-from data_generator import DataGenerator
-from data_extractor import DataExtractor
+# # importing sys
+# import sys
+# # adding Folder_2 to the system path
+# sys.path.insert(0, 'C:/Users/adrie/OneDrive/Bureau/Stage/Datakalab
+# /age-gender-estimation-salem-sermanet/src/data_process')
+
+# data_folder_path = "data/UTKFace/"
 
 
-data_folder_path = "data/UTKFace/"
-
-
-def main_model():
+def main(data_folder_path, model_file, nb_epochs):
 
     print("Fetching dataset")
     data_extractor = DataExtractor(data_folder_path)
@@ -37,7 +37,8 @@ def main_model():
 
     print("Training model")
     model_trainer = ModelTrainer(
-        face_model, data_generator, train_idx, valid_idx, nb_epochs=5)
+        face_model, data_generator, train_idx,
+        valid_idx, model_file, nb_epochs)
     model_trainer.compile_model()
     model_trainer.train_model()
     history = model_trainer.history
@@ -52,4 +53,4 @@ def main_model():
 
 
 if __name__ == '__main__':
-    main_model()
+    main("data/UTKFace/", "age_gender_model.h5", 5)
