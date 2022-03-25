@@ -1,6 +1,6 @@
-from data_extractor import DataFetcher
+from data_extractor import DataExtractor
 # from preprocess_data import DataPreprocessor
-from data_generator import UtkFaceDataGenerator
+from data_generator import DataGenerator
 
 data_folder_path = "data/UTKFace/"
 max_count = 500
@@ -10,7 +10,7 @@ test_size = 0.2
 def main_preprocess():
 
     print("Fetching dataset")
-    data_fetcher = DataFetcher(data_folder_path, max_count)
+    data_fetcher = DataExtractor(data_folder_path, max_count)
     data_fetcher.create_df()
 
     # print("Balancing dataset")
@@ -28,7 +28,7 @@ def main_preprocess():
     # print(data_preprocessor.gender_data[0].shape)
 
     print("Creating Data generator")
-    data_generator = UtkFaceDataGenerator(
+    data_generator = DataGenerator(
         data_fetcher.full_dataset, data_folder_path)
     train_idx, valid_idx, test_idx = data_generator.generate_split_indexes()
     print(len(train_idx), len(valid_idx), len(test_idx))

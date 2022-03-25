@@ -5,9 +5,9 @@ import os
 from typing import List
 
 
-class DataFetcher:
+class DataExtractor:
 
-    def __init__(self, data_folder_path, max_count) -> None:
+    def __init__(self, data_folder_path, max_count=500) -> None:
         self.data_folder_path = data_folder_path
         self.full_dataset = None
         self.max_count = max_count
@@ -26,7 +26,7 @@ class DataFetcher:
     def create_df(self) -> None:
         files, ages, genders = self.fetch_data()
         self.full_dataset = pd.DataFrame(
-            {"image_id": files, "ages": ages, "genders": genders})
+            {"image_files": files, "ages": ages, "genders": genders})
 
     # def balance_dataset(self) -> None:
     #     ages_counts = self.full_dataset.ages.value_counts()
@@ -50,7 +50,7 @@ class DataFetcher:
 if __name__ == '__main__':
     data_folder_path = "data/UTKFace/"
     max_count = 500
-    data_fetcher = DataFetcher(data_folder_path, max_count)
+    data_fetcher = DataExtractor(data_folder_path, max_count)
     data_fetcher.create_df()
     # print(data_fetcher.full_dataset.head())
     # print(data_fetcher.full_dataset.shape)

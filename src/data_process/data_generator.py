@@ -3,7 +3,7 @@ from PIL import Image
 import numpy as np
 
 
-class UtkFaceDataGenerator():
+class DataGenerator():
     """
     Data generator for the UTKFace dataset.
     This class should be used when training our Keras multi-output model.
@@ -17,6 +17,7 @@ class UtkFaceDataGenerator():
         self.im_size = im_size
         self.TRAIN_TEST_SPLIT = TRAIN_TEST_SPLIT
         self.max_age = self.df['ages'].max()
+        self.idx_list = None
 
     def generate_split_indexes(self):
         "Return lists of train/valid/test idx"
@@ -27,7 +28,7 @@ class UtkFaceDataGenerator():
         valid_idx = shuffled_idx[max_train_idx:max_train_valid_idx]
         test_idx = shuffled_idx[max_train_valid_idx:]
 
-        return train_idx, valid_idx, test_idx
+        self.idx_list = [train_idx, valid_idx, test_idx]
 
     def preprocess_image(self, img_path):
         """
@@ -77,6 +78,6 @@ if __name__ == '__main__':
     import pandas as pd
     df = pd.DataFrame()  # empty df...
 
-    data_generator = UtkFaceDataGenerator(df)
-    train_idx, valid_idx, test_idx = data_generator.generate_split_indexes()
-    print(len(train_idx))
+    data_generator = DataGenerator(df)
+    data_generator.generate_split_indexes()
+    print(len(data_generator.idx_list[0]))
