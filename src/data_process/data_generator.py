@@ -72,6 +72,9 @@ class DataGenerator():
             if not is_training:
                 break
 
+    def generate_test_images(self, image_idx, is_training, batch_size=16):
+        pass
+
 
 if __name__ == '__main__':
     data_folder_path = "data/UTKFace/"

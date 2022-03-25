@@ -6,12 +6,13 @@ class ModelTrainer:
 
     def __init__(
         self, model, data_generator, train_idx,
-            valid_idx, model_file, nb_epochs,
+            valid_idx, test_idx, model_file, nb_epochs,
             init_lr=1e-4, batch_size=32) -> None:
         self.model = model
         self.data_generator = data_generator
         self.train_idx = train_idx
         self.valid_idx = valid_idx
+        self.test_idx = test_idx
         self.model_file = model_file
         self.init_lr = init_lr
         self.nb_epochs = nb_epochs
@@ -58,7 +59,7 @@ class ModelTrainer:
             validation_data=valid_gen, verbose=2,
             validation_steps=len(self.valid_idx)//self.valid_batch_size)
         self.history = history
-
+        
 
 if __name__ == '__main__':
 

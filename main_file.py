@@ -44,8 +44,6 @@ def create_data_lists(df, folder_name):
     return images, ages, genders
 
 
-# add a case to test the model ????????????????
-
 def run_training(train_folder_name, model_file, nb_epochs, plot):
 
     print("[INFO] Extracting training data...")
@@ -73,6 +71,9 @@ def run_training(train_folder_name, model_file, nb_epochs, plot):
     model_trainer.compile_model()
     model_trainer.train_model()
     print("[INFO] Model trained !")
+
+    # predictions = model_trainer.test_model()
+    # age_pred, gender_pred = post_process(predictions)  
 
     if plot:
         history = model_trainer.history
