@@ -3,6 +3,18 @@ from PIL import Image
 import numpy as np
 
 
+def preprocess_image(img_path, im_size=(64, 64)):
+    """
+    Used to perform some minor preprocessing on the image
+    before inputting into the network.
+    """
+    im = Image.open(img_path)
+    im = im.resize(im_size)
+    im = np.array(im) / 255.0
+
+    return im
+
+
 class DataGenerator():
     """
     Data generator for the UTKFace dataset.
@@ -30,17 +42,6 @@ class DataGenerator():
 
         self.idx_list = [train_idx, valid_idx, test_idx]
 
-    def preprocess_image(self, img_path):
-        """
-        Used to perform some minor preprocessing on the image
-        before inputting into the network.
-        """
-        im = Image.open(img_path)
-        im = im.resize(self.im_size)
-        im = np.array(im) / 255.0
-
-        return im
-
     def generate_images(self, image_idx, is_training, batch_size=16):
         """
         Used to generate a batch with images when training/testing/validating
@@ -55,9 +56,9 @@ class DataGenerator():
 
                 age = person['ages']
                 gender = person['genders']
-                file = self.data_folder_path+person['image_files']
+                img_path = self.data_folder_path+person['image_files']
 
-                im = self.preprocess_image(file)
+                im = preprocess_image(img_path, self.im_size)
 
                 ages.append(age / self.max_age)
                 genders.append(to_categorical(gender, 2))
