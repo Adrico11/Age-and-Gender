@@ -28,23 +28,23 @@ class DataFetcher:
         self.full_dataset = pd.DataFrame(
             {"image_id": files, "ages": ages, "genders": genders})
 
-    def balance_dataset(self) -> None:
-        ages_counts = self.full_dataset.ages.value_counts()
-        # list of ages with more than max_count corresponding images
-        ages_list = ages_counts[ages_counts > self.max_count].index.tolist()
-        # create a new df without those ages
-        self.balanced_df = self.full_dataset[
-            ~self.full_dataset["ages"].isin(ages_list)].copy()
+    # def balance_dataset(self) -> None:
+    #     ages_counts = self.full_dataset.ages.value_counts()
+    #     # list of ages with more than max_count corresponding images
+    #     ages_list = ages_counts[ages_counts > self.max_count].index.tolist()
+    #     # create a new df without those ages
+    #     self.balanced_df = self.full_dataset[
+    #         ~self.full_dataset["ages"].isin(ages_list)].copy()
 
-        for age in ages_list:
-            age_df = self.full_dataset[
-                self.full_dataset.ages == age].sample(self.max_count)
-            # add the max_count files to the new df of the age in question
-            self.balanced_df = pd.concat(
-                [self.balanced_df, age_df], ignore_index=True, sort=False)
-        self.balanced_df.sample(frac=1)  # shuffle the new df
-        if self.balanced_df.ages.value_counts().max() > self.max_count:
-            print("Dataset is still imbalanced...")
+    #     for age in ages_list:
+    #         age_df = self.full_dataset[
+    #             self.full_dataset.ages == age].sample(self.max_count)
+    #         # add the max_count files to the new df of the age in question
+    #         self.balanced_df = pd.concat(
+    #             [self.balanced_df, age_df], ignore_index=True, sort=False)
+    #     self.balanced_df.sample(frac=1)  # shuffle the new df
+    #     if self.balanced_df.ages.value_counts().max() > self.max_count:
+    #         print("Dataset is still imbalanced...")
 
 
 if __name__ == '__main__':
@@ -54,7 +54,9 @@ if __name__ == '__main__':
     data_fetcher.create_df()
     # print(data_fetcher.full_dataset.head())
     # print(data_fetcher.full_dataset.shape)
-    data_fetcher.balance_dataset()
+
+    # data_fetcher.balance_dataset()
+
     # print(data_fetcher.balanced_df.head())
     # print(data_fetcher.balanced_df.shape)
     # print(data_fetcher.balanced_df.ages.value_counts().max())
