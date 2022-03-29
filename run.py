@@ -11,9 +11,15 @@ ap.add_argument(
 )
 
 # add the input file path to the images directory
+# "data/UTKFace_train/"
 ap.add_argument(
-    "-d", "--dataset", default="data/UTKFace_test/",  # "data/UTKFace_train/"
-    help="path to input dataset (i.e., directory of images)")
+    "-td", "--train_dataset", default="predict_data/UTKFace_predict/", 
+    help="path to train dataset (i.e., directory of images)")
+
+# add the input file path to the images directory
+ap.add_argument(
+    "-pd", "--predict_dataset", default="predict_data/UTKFace_predict/", 
+    help="path to predict dataset (i.e., directory of images)")
 
 # add the output file path to save the model
 ap.add_argument(
@@ -46,14 +52,15 @@ args = vars(ap.parse_args())
 if __name__ == '__main__':
 
     dataset_dict = {
-        "train": "data/UTKFace_train/", "predict": "data/UTKFace_test/"
+        "train": "data/UTKFace_train/",
+        "predict": "predict_data/UTKFace_predict/"
         }
 
     run = args["run"]
 
     if run == "train":
         train_model_file_name = "trained_models/age_gender_model.h5"
-        train_folder_name = args["dataset"]
+        train_folder_name = args["train_dataset"]
         nb_epochs = int(args["epochs"])
         print("NUMBER OF EPOCHS")
         print(nb_epochs)
@@ -63,11 +70,8 @@ if __name__ == '__main__':
 
     elif run == "predict":
         predict_model_file_name = "trained_models/age_gender_final_model.h5"
-        if args["dataset"] != dataset_dict["train"]:
-            pred_folder_name = args["dataset"]
-        else:
-            pred_folder_name = dataset_dict["predict"]
-        print(predict_model_file_name)
+        pred_folder_name = args["predict_dataset"]
+
         run_prediction(pred_folder_name, predict_model_file_name)
 
     else:
