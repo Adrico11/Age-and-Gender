@@ -7,7 +7,7 @@
 **/.DS_Store
 
 # Models
-*.h5
+# *.h5
 
 # Data files
 data/**

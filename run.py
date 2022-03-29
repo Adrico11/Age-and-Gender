@@ -25,10 +25,10 @@ ap.add_argument(
     "-e", "--epochs", default=10,
     help="number of training epochs")
 
-# add the number of images to predict on
-ap.add_argument(
-    "-nb", "--number", default=10,
-    help="number of samples to predict")
+# # add the number of images to predict on
+# ap.add_argument(
+#     "-nb", "--number", default=1,
+#     help="number of samples to predict")
 
 # # add the output file path to save the output
 # ap.add_argument(
@@ -52,7 +52,7 @@ if __name__ == '__main__':
         "train": "data/UTKFace_train/", "predict": "data/UTKFace_test/"
         }
 
-    model_file_name = "trained_models/age_gender_model.h5"  # args["model"]
+    model_file_name = "trained_models/age_gender_model_50.h5"  # args["model"]
 
     run = args["run"]
 
@@ -69,9 +69,9 @@ if __name__ == '__main__':
             pred_folder_name = args["dataset"]
         else:
             pred_folder_name = dataset_dict["predict"]
-        nb_pred = args["number"]
+        # nb_pred = int(args["number"])
 
-        run_prediction(pred_folder_name, model_file_name, nb_pred)
+        run_prediction(pred_folder_name, model_file_name)  # nb_pred)
 
     else:
         print("[ERROR] Invalid input : choose train or predict")
