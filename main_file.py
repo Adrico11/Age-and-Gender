@@ -1,15 +1,20 @@
+# from pyexpat import model
 from src.models.model_builder import ModelBuilder
 from src.models.model_trainer import ModelTrainer
+from src.models.model_evaluator import ModelEvaluator
 
 from src.utils.util_funcs import make_plots
 
 from src.data_process.data_generator import DataGenerator, preprocess_image
 from src.data_process.data_extractor import DataExtractor
 
-from keras.models import load_model
-from tensorflow.keras.utils import to_categorical
-import numpy as np
 import cv2
+import numpy as np
+from keras.models import load_model
+
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
+
 
 # # importing sys
 # import sys
@@ -22,7 +27,6 @@ import cv2
 
 def make_prediction(
         loaded_model, pred_sample, pred_folder_name, im_size=(198, 198)):
-
     pred_row = pred_sample.iloc[0]
     age_true = pred_row['ages']
     gender_true = pred_row['genders']
@@ -46,53 +50,13 @@ def prediction_post_procecss(age_pred, max_age, gender_pred):
     return age_pred, gender_pred
 
 
-def predict_preprocess(img_path, age_true, gender_true, max_age):
-    images, ages, genders = [], [], []
-    im = preprocess_image(img_path)
-
-    ages.append(age_true / max_age)
-    genders.append(to_categorical(gender_true, 2))
-    images.append(im)
-
-    images = np.array(images)
-    ages = np.array(ages)
-    genders = np.array(genders)
-
-    return images, ages, genders
-
-
-# def create_data_lists(df, folder_name, max_age):
-#     images, ages, genders = [], [], []
-#     # ######################### Problem with max_age
-#     # (not the same according to the dataset...)
-#     # max_age = 116  # df.ages.max()
-
-#     for _, row in df.iterrows():
-
-#         age = row['ages']
-#         gender = row['genders']
-#         img_path = folder_name+row['image_files']
-#         print(img_path)
-#         im = preprocess_image(img_path)
-
-#         ages.append(age / max_age)
-#         genders.append(to_categorical(gender, 2))
-#         images.append(im)
-
-#     images = np.array(images)
-#     ages = np.array(ages)
-#     genders = np.array(genders)
-
-#     return images, ages, genders
-
-
 def run_training(train_folder_name, model_file, nb_epochs, plot):
 
     print("[INFO] Extracting training data...")
     data_extractor = DataExtractor(train_folder_name)
     data_extractor.create_df()
     full_dataset = data_extractor.full_dataset
-    print(full_dataset.head())
+    # print(full_dataset.head())
 
     print("[INFO] Creating Data generator...")
     data_generator = DataGenerator(
@@ -109,12 +73,22 @@ def run_training(train_folder_name, model_file, nb_epochs, plot):
     print("[INFO] Training model...")
     model_trainer = ModelTrainer(
         face_model, data_generator, train_idx,
-        valid_idx, model_file, nb_epochs)
+        valid_idx, test_idx, model_file, nb_epochs)
     model_trainer.compile_model()
     model_trainer.train_model()
     print("[INFO] Model trained !")
 
-    # predictions = model_trainer.test_model()
+    print("[INFO] Testing model on unseen images...")
+    max_age = 116
+    model_evaluator = ModelEvaluator(
+        model_trainer.model, full_dataset, 
+        max_age, test_idx, train_folder_name)
+    model_evaluator.generate_test_images()
+    model_evaluator.make_test_predictions()
+    model_evaluator.eval_model()
+    # test_pred_age, test_pred_gender = model_evaluator.test_model()
+    # print(test_pred_age)
+    # print(test_pred_gender)
     # age_pred, gender_pred = post_process(predictions)
 
     if plot:

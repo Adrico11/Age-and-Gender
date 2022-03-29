@@ -24,6 +24,7 @@ class ModelTrainer:
         return opti
 
     def compile_model(self) -> None:
+        print("Compiling model...")
         opti = self.create_optimizer()
         self.model.compile(
             optimizer=opti,
@@ -37,7 +38,7 @@ class ModelTrainer:
                 'gender_output': 'accuracy'})
 
     def train_model(self) -> None:
-
+        print("Starting to train the model...")
         checkpointer = ModelCheckpoint(
             self.model_file, monitor='val_loss', verbose=0,
             save_best_only=True, save_weights_only=False,

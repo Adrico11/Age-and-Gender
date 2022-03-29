@@ -72,8 +72,23 @@ class DataGenerator():
             if not is_training:
                 break
 
-    def generate_test_images(self, image_idx, is_training, batch_size=16):
-        pass
+    # def generate_test_images(self, image_idx, is_testing, batch_size=16):
+    #     images = []
+    #     while True:
+    #         for idx in image_idx:
+    #             person = self.df.iloc[idx]
+    #             img_path = self.data_folder_path+person['image_files']
+    #             im = preprocess_image(img_path, self.im_size)
+    #             images.append(im)
+
+    #             # yielding condition
+    #             if len(images) >= batch_size:
+    #                 yield np.array(images)
+    #                 images = []
+    #                 is_testing = False
+
+    #         if not is_testing:
+    #             break
 
 
 if __name__ == '__main__':

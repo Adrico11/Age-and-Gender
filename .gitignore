@@ -9,6 +9,9 @@
 # Models
 # *.h5
 
+# Confusion matrix
+Gender_confusion_matrix.png
+
 # Data files
 data/**
 
