@@ -81,7 +81,7 @@ def run_training(train_folder_name, model_file, nb_epochs, plot):
     print("[INFO] Testing model on unseen images...")
     max_age = 116
     model_evaluator = ModelEvaluator(
-        model_trainer.model, full_dataset, 
+        model_trainer.model, full_dataset,
         max_age, test_idx, train_folder_name)
     model_evaluator.generate_test_images()
     model_evaluator.make_test_predictions()

@@ -17,6 +17,7 @@ ap.add_argument(
     help="path to train dataset (i.e., directory of images)")
 
 # add the input file path to the images directory
+# image_test/",
 ap.add_argument(
     "-pd", "--predict_dataset", default="predict_data/UTKFace_predict/", 
     help="path to predict dataset (i.e., directory of images)")
